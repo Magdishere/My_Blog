@@ -2,23 +2,24 @@
 @section('content')
 
     <div class="container m-auto text-center pt-10 pb-10">
-        <h1 class="text-5xl font-bold">Add New Post</h1>
+        <h1 class="text-5xl font-bold">Edit Post</h1>
     </div>
 
     <div class="container m-auto text-center pt-10 pb-10">
-        <form action="/blog" method="POST" enctype="multipart/form-data">
+        <form action="/blog/{{$post->slug}}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
+
             <input
                 type="text"
                 name="title"
-                placeholder="Enter a title"
+                value="{{$post->title}}"
                 class="w-full h-20 text-4xl rounded-lg shadow-lg border-b p-10 mb-5">
 
             <textarea
                 name="description"
-                placeholder="Description"
                 class="w-full h-60 text-l rounded-lg shadow-lg border-b p-10 mb-5">
-
+                {{$post->description}}
             </textarea>
 
             <div class="py-10">
@@ -39,8 +40,9 @@
                     transition duration-300
                     cursor-pointer
                     p-5 pt-5 rounded-lg
-                    font-bold uppercase">Submit</button>
+                    font-bold uppercase">Save Changes</button>
         </form>
     </div>
 
 @endsection
+

@@ -47,21 +47,43 @@ class PostsController extends Controller
     }
 
 
-    public function show($id)
+    public function show($slug)
     {
-        //
+        return view('blog.show')
+        ->with('post', Post::where('slug', $slug)->first());
     }
 
 
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        return view('blog.edit')
+        ->with('post', Post::where('slug', $slug)->first());
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' =>'required|mimes:jpg,png,jped|max:5048'
+        ]);
+
+        $newImageName = uniqid() . '-' . $slug . '-' . $request->image->extension();
+        $request->image->move(public_path('images'), $newImageName);
+
+        Post::where('slug', $slug)
+        ->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'slug' => $slug,
+            'image_path' => $newImageName,
+            'user_id' => auth()->user()->id
+        ]);
+
+        return redirect('/blog/' . $slug)
+        ->with('message', 'Post Edited Successfully');
     }
 
 
