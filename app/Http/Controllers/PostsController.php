@@ -87,8 +87,10 @@ class PostsController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        Post::where('slug', $slug)->delete();
+        return redirect('/blog')
+        ->with('message', 'Post Deleted Successfully');
     }
 }

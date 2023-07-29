@@ -28,7 +28,18 @@
         </div>
 
         @if(Auth::user() && Auth::user()->id == $post->user_id)
-        <a href="/blog/{{$post->slug}}/edit" class="bg-green-700 text-gray-100 font-bold uppercase py-5 px-5 rounded-lg text-lg mt-10 place-self-start">Edit Post</a>
+        <a href="/blog/{{$post->slug}}/edit" class="bg-green-700 text-gray-100 font-bold uppercase py-3 px-4 rounded-lg text-lg mt-10 place-self-start">Edit Post</a>
+
+        <form action="/blog/{{$post->slug}}" method="post" class="inline-block">
+            @csrf
+            @method('delete')
+
+            <button type="submit"
+                    class="bg-red-700 text-red-100 font-bold uppercase py-2 px-4 rounded-lg text-lg mt-10 place-self-start">
+                    Delete Post
+            </button>
+
+        </form>
         @endif
     </div>
 
